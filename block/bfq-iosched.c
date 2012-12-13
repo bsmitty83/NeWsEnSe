@@ -453,6 +453,7 @@ static inline unsigned int bfq_wrais_duration(struct bfq_data *bfqd)
 	return dur;
 }
 
+<<<<<<< HEAD
 static inline void
 bfq_bfqq_resume_state(struct bfq_queue *bfqq, struct cfq_io_context *cic)
 {
@@ -484,6 +485,8 @@ static int bfqq_process_refs(struct bfq_queue *bfqq)
 	return process_refs;
 }
 
+=======
+>>>>>>> 1566ed7... block: Update to BFQ v5
 static void bfq_add_rq_rb(struct request *rq)
 {
 	struct bfq_queue *bfqq = RQ_BFQQ(rq);
@@ -498,8 +501,11 @@ static void bfq_add_rq_rb(struct request *rq)
 	bfqq->queued[rq_is_sync(rq)]++;
 	bfqd->queued++;
 
+<<<<<<< HEAD
 	spin_lock(&bfqd->eqm_lock);
 
+=======
+>>>>>>> 1566ed7... block: Update to BFQ v5
 	/*
 	 * Looks a little odd, but the first insert might return an alias,
 	 * if that happens, put the alias on the dispatch list.
@@ -1133,7 +1139,11 @@ static inline unsigned long bfq_max_budget(struct bfq_data *bfqd)
 static inline unsigned long bfq_min_budget(struct bfq_data *bfqd)
 {
 	if (bfqd->budgets_assigned < 194)
+<<<<<<< HEAD
 		return bfq_default_max_budget / 32;
+=======
+		return bfq_default_max_budget;
+>>>>>>> 1566ed7... block: Update to BFQ v5
 	else
 		return bfqd->bfq_max_budget / 32;
 }
@@ -3113,7 +3123,11 @@ static ssize_t								\
 __FUNC(struct elevator_queue *e, const char *page, size_t count)	\
 {									\
 	struct bfq_data *bfqd = e->elevator_data;			\
+<<<<<<< HEAD
 	unsigned long uninitialized_var(__data);			\
+=======
+	unsigned long __data;						\
+>>>>>>> 1566ed7... block: Update to BFQ v5
 	int ret = bfq_var_store(&__data, (page), count);		\
 	if (__data < (MIN))						\
 		__data = (MIN);						\
@@ -3173,7 +3187,11 @@ static ssize_t bfq_max_budget_store(struct elevator_queue *e,
 				    const char *page, size_t count)
 {
 	struct bfq_data *bfqd = e->elevator_data;
+<<<<<<< HEAD
 	unsigned long uninitialized_var(__data);
+=======
+	unsigned long __data;
+>>>>>>> 1566ed7... block: Update to BFQ v5
 	int ret = bfq_var_store(&__data, (page), count);
 
 	if (__data == 0)
@@ -3193,7 +3211,11 @@ static ssize_t bfq_timeout_sync_store(struct elevator_queue *e,
 				      const char *page, size_t count)
 {
 	struct bfq_data *bfqd = e->elevator_data;
+<<<<<<< HEAD
 	unsigned long uninitialized_var(__data);
+=======
+	unsigned long __data;
+>>>>>>> 1566ed7... block: Update to BFQ v5
 	int ret = bfq_var_store(&__data, (page), count);
 
 	if (__data < 1)
@@ -3212,7 +3234,11 @@ static ssize_t bfq_low_latency_store(struct elevator_queue *e,
 				     const char *page, size_t count)
 {
 	struct bfq_data *bfqd = e->elevator_data;
+<<<<<<< HEAD
 	unsigned long uninitialized_var(__data);
+=======
+	unsigned long __data;
+>>>>>>> 1566ed7... block: Update to BFQ v5
 	int ret = bfq_var_store(&__data, (page), count);
 
 	if (__data > 1)

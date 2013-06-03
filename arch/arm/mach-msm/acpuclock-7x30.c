@@ -55,6 +55,9 @@
 #define VDD_RAW(mv) (((MV(mv) / V_STEP) - 30) | VREG_DATA)
 
 #define MAX_AXI_KHZ 192000
+#define VIVOW_ACPU_MIN_UV_MV 750U
+#define VIVOW_ACPU_MAX_UV_MV 1450U
+
 
 #ifdef CONFIG_CPU_FREQ_VDD_LEVELS
 #define SEMC_ACPU_MIN_UV_MV 750U
@@ -552,6 +555,17 @@ ssize_t acpuclk_get_vdd_levels_str(char *buf)
 		mutex_unlock(&drv_state.lock);
 	}
 	return len;
+int i, len = 0;
+if (buf)
+{
+mutex_lock(&drv_state.lock);
+for (i = 0; acpu_freq_tbl[i].acpu_clk_khz; i++)
+{
+len += sprintf(buf + len, "%8u: %4d\n", acpu_freq_tbl[i].acpu_clk_khz, acpu_freq_tbl[i].vdd_mv);
+}
+mutex_unlock(&drv_state.lock);
+}
+return len;
 }
 
 void acpuclk_set_vdd(unsigned int khz, int vdd)
@@ -575,4 +589,22 @@ void acpuclk_set_vdd(unsigned int khz, int vdd)
 
 #endif
 
+int i;
+unsigned int new_vdd;
+vdd = vdd / V_STEP * V_STEP;
+mutex_lock(&drv_state.lock);
+for (i = 0; acpu_freq_tbl[i].acpu_clk_khz; i++)
+{
+if (khz == 0)
+new_vdd = min(max((acpu_freq_tbl[i].vdd_mv + vdd), VIVOW_ACPU_MIN_UV_MV), VIVOW_ACPU_MAX_UV_MV);
+else if (acpu_freq_tbl[i].acpu_clk_khz == khz)
+new_vdd = min(max((unsigned int)vdd, VIVOW_ACPU_MIN_UV_MV), VIVOW_ACPU_MAX_UV_MV);
+else continue;
 
+acpu_freq_tbl[i].vdd_mv = new_vdd;
+acpu_freq_tbl[i].vdd_raw = VDD_RAW(new_vdd);
+}
+mutex_unlock(&drv_state.lock);
+}
+
+#endif

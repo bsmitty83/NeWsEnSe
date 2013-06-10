@@ -40,13 +40,10 @@
 * It helps to keep variable names smaller, simpler
 */
 
-<<<<<<< HEAD
 #define DEF_FREQUENCY_UP_THRESHOLD (90)
 #define DEF_FREQUENCY_DOWN_THRESHOLD (25)
-=======
 #define DEF_FREQUENCY_UP_THRESHOLD (92)
 #define DEF_FREQUENCY_DOWN_THRESHOLD (27)
->>>>>>> 21ec6d6... patching to 3.0.43
 
 /*
 * The polling frequency of this governor depends on the capability of
@@ -69,11 +66,8 @@ static unsigned int def_sampling_rate;
 #define DEF_SAMPLING_DOWN_FACTOR (10)
 #define MAX_SAMPLING_DOWN_FACTOR (100)
 #define TRANSITION_LATENCY_LIMIT (10 * 1000 * 1000)
-<<<<<<< HEAD
-=======
 #define CONFIG_CPU_FREQ_SAMPLING_LATENCY_MULTIPLIER (500)
 #define CONFIG_CPU_FREQ_MIN_TICKS (2)
->>>>>>> 21ec6d6... patching to 3.0.43
 
 static void do_dbs_timer(struct work_struct *work);
 
@@ -87,11 +81,9 @@ unsigned int requested_freq;
 };
 static DEFINE_PER_CPU(struct cpu_dbs_info_s, cpu_dbs_info);
 
-<<<<<<< HEAD
 static unsigned int dbs_enable;	/* number of CPUs using this policy */
-=======
 static unsigned int dbs_enable; /* number of CPUs using this policy */
->>>>>>> 21ec6d6... patching to 3.0.43
+
 
 /*
 * DEADLOCK ALERT! There is a ordering requirement between cpu_hotplug
@@ -554,17 +546,14 @@ return 0;
 static
 #endif
 struct cpufreq_governor cpufreq_gov_minmax = {
-<<<<<<< HEAD
 .name	= "minmax",
 .governor	= cpufreq_governor_dbs,
 .max_transition_latency	= TRANSITION_LATENCY_LIMIT,
 .owner	= THIS_MODULE,
-=======
 .name = "minmax",
 .governor = cpufreq_governor_dbs,
 .max_transition_latency = TRANSITION_LATENCY_LIMIT,
 .owner = THIS_MODULE,
->>>>>>> 21ec6d6... patching to 3.0.43
 };
 
 static int __init cpufreq_gov_dbs_init(void)

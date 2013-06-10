@@ -1097,11 +1097,11 @@ __getblk_slow(struct block_device *bdev, sector_t block, int size)
 	}
 
 	for (;;) {
-<<<<<<< HEAD
+
 		struct buffer_head * bh;
-=======
+
 		struct buffer_head *bh;
->>>>>>> 21ec6d6... patching to 3.0.43
+
 		int ret;
 
 		bh = __find_get_block(bdev, block, size);

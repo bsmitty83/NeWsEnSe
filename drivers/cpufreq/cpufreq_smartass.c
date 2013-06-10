@@ -1,5 +1,4 @@
 /*
-<<<<<<< HEAD
 * drivers/cpufreq/cpufreq_smartass.c
 *
 * Copyright (C) 2010 Google, Inc.
@@ -22,32 +21,8 @@
 * EXPORT_SYMBOL_GPL(nr_running);
 * at the end of kernel/sched.c
 *
+*
 */
-=======
- * drivers/cpufreq/cpufreq_smartass.c
- *
- * Copyright (C) 2010 Google, Inc.
- *
- * This software is licensed under the terms of the GNU General Public
- * License version 2, as published by the Free Software Foundation, and
- * may be copied, distributed, and modified under those terms.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * Author: Erasmux
- *
- * Based on the interactive governor By Mike Chan (mike@android.com)
- * which was adaptated to 2.6.29 kernel by Nadlabak (pavel@doshaska.net)
- *
- * requires to add
- * EXPORT_SYMBOL_GPL(nr_running);
- * at the end of kernel/sched.c
- *
- */
->>>>>>> 21ec6d6... patching to 3.0.43
 
 #include <linux/cpu.h>
 #include <linux/cpumask.h>
@@ -59,23 +34,18 @@
 #include <linux/moduleparam.h>
 #include <asm/cputime.h>
 #include <linux/earlysuspend.h>
-<<<<<<< HEAD
-=======
 #include <linux/delay.h>
->>>>>>> 21ec6d6... patching to 3.0.43
 
 static void (*pm_idle_old)(void);
 static atomic_t active_count = ATOMIC_INIT(0);
 
 struct smartass_info_s {
-<<<<<<< HEAD
 struct cpufreq_policy *cur_policy;
 struct timer_list timer;
 u64 time_in_idle;
 u64 idle_exit_time;
 unsigned int force_ramp_up;
 unsigned int enable;
-=======
         struct cpufreq_policy *cur_policy;
         struct timer_list timer;
         u64 time_in_idle;
@@ -88,7 +58,6 @@ unsigned int enable;
         unsigned int max_speed;
         unsigned int min_speed;
 	struct early_suspend smartass_power_suspend;
->>>>>>> 21ec6d6... patching to 3.0.43
 };
 static DEFINE_PER_CPU(struct smartass_info_s, smartass_info);
 
@@ -97,17 +66,13 @@ static struct workqueue_struct *up_wq;
 static struct workqueue_struct *down_wq;
 static struct work_struct freq_scale_work;
 
-<<<<<<< HEAD
 static u64 freq_change_time;
 static u64 freq_change_time_in_idle;
 
-=======
->>>>>>> 21ec6d6... patching to 3.0.43
 static cpumask_t work_cpumask;
 static unsigned int suspended;
 
 /*
-<<<<<<< HEAD
 * The minimum amount of time to spend at a frequency before we can ramp down,
 * default is 45ms.
 */
@@ -131,9 +96,6 @@ static unsigned int up_min_freq;
 static unsigned int sleep_max_freq;
 
 /*
-* Sampling rate, I highly recommend to leave it at 2.
-*/
-=======
  * The minimum amount of time to spend at a frequency before we can ramp down,
  * default is 45ms.
  */
@@ -175,25 +137,20 @@ static unsigned int awake_min_freq;
 /*
  * Sampling rate, I highly recommend to leave it at 2.
  */
->>>>>>> 21ec6d6... patching to 3.0.43
 #define DEFAULT_SAMPLE_RATE_JIFFIES 2
 static unsigned int sample_rate_jiffies;
 
 /*
-<<<<<<< HEAD
 * Freqeuncy delta when ramping up.
 * zero disables causes to always jump straight to max frequency.
-*/
-=======
+*
  * Freqeuncy delta when ramping up.
  * zero disables causes to always jump straight to max frequency.
  */
->>>>>>> 21ec6d6... patching to 3.0.43
 #define DEFAULT_RAMP_UP_STEP 384000
 static unsigned int ramp_up_step;
 
 /*
-<<<<<<< HEAD
 * Max freqeuncy delta when ramping down. zero disables.
 */
 #define DEFAULT_MAX_RAMP_DOWN 0
@@ -207,8 +164,7 @@ static unsigned long max_cpu_load;
 
 /*
 * CPU freq will be decreased if measured load < min_cpu_load;
-*/
-=======
+*
  * Max freqeuncy delta when ramping down. zero disables.
  */
 #define DEFAULT_MAX_RAMP_DOWN 245000
@@ -223,23 +179,22 @@ static unsigned long max_cpu_load;
 /*
  * CPU freq will be decreased if measured load < min_cpu_load;
  */
->>>>>>> 21ec6d6... patching to 3.0.43
 #define DEFAULT_MIN_CPU_LOAD 35
 static unsigned long min_cpu_load;
 
 
 static int cpufreq_governor_smartass(struct cpufreq_policy *policy,
-<<<<<<< HEAD
+
 unsigned int event);
-=======
+
                 unsigned int event);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 
 #ifndef CONFIG_CPU_FREQ_DEFAULT_GOV_SMARTASS
 static
 #endif
 struct cpufreq_governor cpufreq_gov_smartass = {
-<<<<<<< HEAD
+
 .name = "smartass",
 .governor = cpufreq_governor_smartass,
 .max_transition_latency = 9000000,
@@ -301,7 +256,7 @@ return;
 
 cpumask_set_cpu(data, &work_cpumask);
 queue_work(down_wq, &freq_scale_work);
-=======
+
         .name = "smartass",
         .governor = cpufreq_governor_smartass,
         .max_transition_latency = 9000000,
@@ -406,12 +361,12 @@ static void cpufreq_smartass_timer(unsigned long data)
 
         cpumask_set_cpu(data, &work_cpumask);
         queue_work(down_wq, &freq_scale_work);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static void cpufreq_idle(void)
 {
-<<<<<<< HEAD
+
 struct smartass_info_s *this_smartass = &per_cpu(smartass_info, smp_processor_id());
 struct cpufreq_policy *policy = this_smartass->cur_policy;
 
@@ -463,7 +418,7 @@ new_freq = policy->max;
 return new_freq;
 }
 return policy->cur;
-=======
+
         struct smartass_info_s *this_smartass = &per_cpu(smartass_info, smp_processor_id());
         struct cpufreq_policy *policy = this_smartass->cur_policy;
 
@@ -479,13 +434,13 @@ return policy->cur;
 
         if (!timer_pending(&this_smartass->timer))
                 reset_timer(smp_processor_id(), this_smartass);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 /* We use the same work function to sale up and down */
 static void cpufreq_smartass_freq_change_time_work(struct work_struct *work)
 {
-<<<<<<< HEAD
+
 unsigned int cpu;
 unsigned int new_freq;
 struct smartass_info_s *this_smartass;
@@ -545,7 +500,7 @@ cpumask_clear_cpu(cpu, &work_cpumask);
 }
 
 
-=======
+
         unsigned int cpu;
         unsigned int new_freq;
         unsigned int force_ramp_up;
@@ -588,22 +543,22 @@ cpumask_clear_cpu(cpu, &work_cpumask);
 
                 cpumask_clear_cpu(cpu, &work_cpumask);
         }
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t show_down_rate_us(struct cpufreq_policy *policy, char *buf)
 {
-<<<<<<< HEAD
+
 return sprintf(buf, "%lu\n", down_rate_us);
-=======
+
         return sprintf(buf, "%lu\n", down_rate_us);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_down_rate_us(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0 && input >= 1000 && input <= 100000000)
@@ -617,7 +572,7 @@ show_down_rate_us, store_down_rate_us);
 static ssize_t show_up_min_freq(struct cpufreq_policy *policy, char *buf)
 {
 return sprintf(buf, "%u\n", up_min_freq);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0 && input >= 1000 && input <= 100000000)
@@ -631,13 +586,13 @@ static struct freq_attr down_rate_us_attr = __ATTR(down_rate_us, 0644,
 static ssize_t show_up_min_freq(struct cpufreq_policy *policy, char *buf)
 {
         return sprintf(buf, "%u\n", up_min_freq);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_up_min_freq(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0 && input >= 0)
@@ -651,7 +606,7 @@ show_up_min_freq, store_up_min_freq);
 static ssize_t show_sleep_max_freq(struct cpufreq_policy *policy, char *buf)
 {
 return sprintf(buf, "%u\n", sleep_max_freq);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0 && input >= 0)
@@ -665,13 +620,13 @@ static struct freq_attr up_min_freq_attr = __ATTR(up_min_freq, 0644,
 static ssize_t show_sleep_max_freq(struct cpufreq_policy *policy, char *buf)
 {
         return sprintf(buf, "%u\n", sleep_max_freq);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_sleep_max_freq(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0 && input >= 0)
@@ -685,7 +640,7 @@ show_sleep_max_freq, store_sleep_max_freq);
 static ssize_t show_sample_rate_jiffies(struct cpufreq_policy *policy, char *buf)
 {
 return sprintf(buf, "%u\n", sample_rate_jiffies);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0 && input >= 0)
@@ -735,13 +690,13 @@ static struct freq_attr awake_min_freq_attr = __ATTR(awake_min_freq, 0644,
 static ssize_t show_sample_rate_jiffies(struct cpufreq_policy *policy, char *buf)
 {
         return sprintf(buf, "%u\n", sample_rate_jiffies);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_sample_rate_jiffies(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0 && input > 0 && input <= 1000)
@@ -755,7 +710,7 @@ show_sample_rate_jiffies, store_sample_rate_jiffies);
 static ssize_t show_ramp_up_step(struct cpufreq_policy *policy, char *buf)
 {
 return sprintf(buf, "%u\n", ramp_up_step);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0 && input > 0 && input <= 1000)
@@ -769,13 +724,13 @@ static struct freq_attr sample_rate_jiffies_attr = __ATTR(sample_rate_jiffies, 0
 static ssize_t show_ramp_up_step(struct cpufreq_policy *policy, char *buf)
 {
         return sprintf(buf, "%u\n", ramp_up_step);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_ramp_up_step(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0)
@@ -789,7 +744,7 @@ show_ramp_up_step, store_ramp_up_step);
 static ssize_t show_max_ramp_down(struct cpufreq_policy *policy, char *buf)
 {
 return sprintf(buf, "%u\n", max_ramp_down);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0)
@@ -803,13 +758,13 @@ static struct freq_attr ramp_up_step_attr = __ATTR(ramp_up_step, 0644,
 static ssize_t show_max_ramp_down(struct cpufreq_policy *policy, char *buf)
 {
         return sprintf(buf, "%u\n", max_ramp_down);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_max_ramp_down(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0)
@@ -823,7 +778,7 @@ show_max_ramp_down, store_max_ramp_down);
 static ssize_t show_max_cpu_load(struct cpufreq_policy *policy, char *buf)
 {
 return sprintf(buf, "%lu\n", max_cpu_load);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0)
@@ -837,13 +792,13 @@ static struct freq_attr max_ramp_down_attr = __ATTR(max_ramp_down, 0644,
 static ssize_t show_max_cpu_load(struct cpufreq_policy *policy, char *buf)
 {
         return sprintf(buf, "%lu\n", max_cpu_load);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_max_cpu_load(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0 && input > 0 && input <= 100)
@@ -857,7 +812,7 @@ show_max_cpu_load, store_max_cpu_load);
 static ssize_t show_min_cpu_load(struct cpufreq_policy *policy, char *buf)
 {
 return sprintf(buf, "%lu\n", min_cpu_load);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0 && input > 0 && input <= 100)
@@ -871,13 +826,13 @@ static struct freq_attr max_cpu_load_attr = __ATTR(max_cpu_load, 0644,
 static ssize_t show_min_cpu_load(struct cpufreq_policy *policy, char *buf)
 {
         return sprintf(buf, "%lu\n", min_cpu_load);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 static ssize_t store_min_cpu_load(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
         ssize_t res;
-<<<<<<< HEAD
+
 unsigned long input;
 res = strict_strtoul(buf, 0, &input);
 if (res >= 0 && input > 0 && input < 100)
@@ -1042,7 +997,7 @@ INIT_WORK(&freq_scale_work, cpufreq_smartass_freq_change_time_work);
 register_early_suspend(&smartass_power_suspend);
 
 return cpufreq_register_governor(&cpufreq_gov_smartass);
-=======
+
         unsigned long input;
         res = strict_strtoul(buf, 0, &input);
         if (res >= 0 && input > 0 && input < 100)
@@ -1209,7 +1164,7 @@ static int __init cpufreq_smartass_init(void)
         INIT_WORK(&freq_scale_work, cpufreq_smartass_freq_change_time_work);
 
         return cpufreq_register_governor(&cpufreq_gov_smartass);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 #ifdef CONFIG_CPU_FREQ_DEFAULT_GOV_SMARTASS
@@ -1220,26 +1175,26 @@ module_init(cpufreq_smartass_init);
 
 static void __exit cpufreq_smartass_exit(void)
 {
-<<<<<<< HEAD
+
 cpufreq_unregister_governor(&cpufreq_gov_smartass);
 destroy_workqueue(up_wq);
 destroy_workqueue(down_wq);
-=======
+
         cpufreq_unregister_governor(&cpufreq_gov_smartass);
         destroy_workqueue(up_wq);
         destroy_workqueue(down_wq);
->>>>>>> 21ec6d6... patching to 3.0.43
+
 }
 
 module_exit(cpufreq_smartass_exit);
 
 MODULE_AUTHOR ("Erasmux");
-<<<<<<< HEAD
+
 MODULE_DESCRIPTION ("'cpufreq_smartass' - A smart cpufreq governor");
 MODULE_LICENSE ("GPL");
 
 
-=======
+
 MODULE_DESCRIPTION ("'cpufreq_minmax' - A smart cpufreq governor optimized for the hero!");
 MODULE_LICENSE ("GPL");
->>>>>>> 21ec6d6... patching to 3.0.43
+

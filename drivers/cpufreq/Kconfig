@@ -149,6 +149,12 @@ config CPU_FREQ_DEFAULT_GOV_INTELLIDEMAND
         help
         Intelligent OnDemand Govneror based on Samsung PatchedOnDemand 
 
+config CPU_FREQ_DEFAULT_GOV_MINMAX
+	bool "minmax"
+	select CPU_FREQ_GOV_MINMAX
+	help
+	Use the CPUFreq governor 'minmax' as default.
+
 endchoice
 
 config CPU_FREQ_GOV_SMARTASS2
@@ -305,6 +311,14 @@ config CPU_FREQ_GOV_SCARY
 	depends on CPU_FREQ
 	help
 		scary - a governor for cabbages
+
+		If in doubt, say N.
+
+config CPU_FREQ_GOV_MINMAX
+	tristate "'minmax' cpufreq governor"
+	depends on CPU_FREQ
+	help
+		minmax - self explanitory
 
 		If in doubt, say N.
 

@@ -932,6 +932,7 @@ static int __devinit sht15_probe(struct platform_device *pdev)
 			goto err_free_data;
 		}
 
+		regulator_enable(data->reg);
 		/*
 		 * Setup a notifier block to update this if another device
 		 * causes the voltage to change

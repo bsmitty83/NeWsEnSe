@@ -75,7 +75,7 @@ void kgsl_pwrctrl_enable(struct kgsl_device *device);
 void kgsl_pwrctrl_disable(struct kgsl_device *device);
 static inline unsigned long kgsl_get_clkrate(struct clk *clk)
 {
-	return (clk != NULL) ? clk_get_rate(clk) : 0;
+	return (clk != NULL) ? clk_get_rate(clk) :0;
 }
 
 void kgsl_pwrctrl_set_state(struct kgsl_device *device, unsigned int state);

@@ -76,11 +76,6 @@ config IOSCHED_VR
 	---help---
 	 are chosen according to SSTF with a penalty of rev_penalty
 	config IOSCHED_ZEN
-+  tristate "Zen I/O scheduler"
-+  default y
-+  ---help---
-+    FCFS, dispatches are back-inserted, deadlines ensure fairness.
-+    Should work best with devices where there is no travel delay. 	for switching head direction.
 
 config IOSCHED_ZEN
   tristate "Zen I/O scheduler"

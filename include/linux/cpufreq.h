@@ -381,9 +381,7 @@ extern struct cpufreq_governor cpufreq_gov_intellidemand;
 extern struct cpufreq_governor cpufreq_gov_minmax;
 #define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_minmax)
 extern struct cpufreq_governor cpufreq_gov_badass;
-#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_badass)
-extern struct cpufreq_governor cpufreq_gov_superbad;
-#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_superbad)    
+#define CPUFREQ_DEFAULT_GOVERNOR (&cpufreq_gov_badass)  
 #endif
 
 

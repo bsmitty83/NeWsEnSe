@@ -161,12 +161,6 @@ config CPU_FREQ_DEFAULT_GOV_BADASS
 	help
 	Use the CPUFreq governor 'badass' as default.
 
-config CPU_FREQ_DEFAULT_GOV_SUPERBAD
-	bool "superbad"
-	select CPU_FREQ_GOV_SUPERBAD
-	help
-	Use the CPUFreq governor 'badass' as default.
-
 endchoice
 
 config CPU_FREQ_GOV_SMARTASS2
@@ -339,14 +333,6 @@ config CPU_FREQ_GOV_BADASS
 	depends on CPU_FREQ
 	help
 		badass - also self explanitory
-
-		If in doubt, say N.
-
-config CPU_FREQ_GOV_SUPERBAD
-	tristate "'superbad' cpufreq governor"
-	depends on CPU_FREQ
-	help
-		superbad - a super bad governor
 
 		If in doubt, say N.
 

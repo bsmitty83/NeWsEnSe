@@ -356,7 +356,7 @@ static ssize_t vivow_ct_virtual_keys_show(struct kobject *kobj,
 			struct kobj_attribute *attr, char *buf)
 {
 	return sprintf(buf,
-		__stringify(EV_KEY) ":" __stringify(KEY_HOME)	":50:860:74:60"
+		__stringify(EV_KEY) ":" __stringify(KEY_HOME)	":58:860:74:60"
 		":" __stringify(EV_KEY) ":" __stringify(KEY_MENU)	":185:860:80:60"
 		":" __stringify(EV_KEY) ":" __stringify(KEY_BACK)	":300:860:90:60"
 		":" __stringify(EV_KEY) ":" __stringify(KEY_SEARCH) ":417:860:64:60"

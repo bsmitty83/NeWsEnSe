@@ -329,14 +329,6 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		global_page_state(NR_INACTIVE_ANON) +
 		global_page_state(NR_INACTIVE_FILE);
 	if (sc->nr_to_scan <= 0 || min_adj == OOM_ADJUST_MAX + 1) {
-
-	if (sc->nr_to_scan <= 0 && min_score_adj == OOM_SCORE_ADJ_MAX + 1) {
-		lowmem_print(5, "lowmem_shrink %lu, %x, not shrinking\n",
-			     sc->nr_to_scan, sc->gfp_mask);
-		return 0;
-	}
-
-	if (sc->nr_to_scan <= 0) {
 		lowmem_print(5, "lowmem_shrink %lu, %x, return %d\n",
 			     sc->nr_to_scan, sc->gfp_mask, rem);
 		return rem;
@@ -355,8 +347,6 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		if (!mm || !sig) {
 			task_unlock(p);
 			continue;
-			rcu_read_unlock();
-			return rem;
 		}
 		oom_adj = sig->oom_adj;
 		if (oom_adj < min_adj) {
@@ -411,8 +401,6 @@ static int lowmem_shrink(struct shrinker *s, struct shrink_control *sc)
 		lowmem_deathpending_timeout = jiffies + HZ;
 		force_sig(SIGKILL, selected);
 		rem -= selected_tasksize;
-	} else {
-		rem = -1;
 	}
 	lowmem_print(4, "lowmem_shrink %lu, %x, return %d\n",
 		     sc->nr_to_scan, sc->gfp_mask, rem);
